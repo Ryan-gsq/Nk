@@ -1,1 +1,10 @@
-12
+for(var b = 1; b <= rowCount; b++) {
+   for(var c = (a - b) * 2; c >= 0; c--) {
+     document.write(" ");  
+   }
+   for(var d = 1; d <= b * 2 - 1; d++) {
+     document.write("*" + " ");
+  
+   }
+    document.write("<br/>");
+  }
