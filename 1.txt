@@ -1,10 +1,43 @@
-for(var b = 1; b <= rowCount; b++) {
-   for(var c = (a - b) * 2; c >= 0; c--) {
-     document.write(" ");  
-   }
-   for(var d = 1; d <= b * 2 - 1; d++) {
-     document.write("*" + " ");
-  
-   }
-    document.write("<br/>");
-  }
+var URLSearchParam = /** @class */ (function () {
+    function URLSearchParam(params) {
+        var _this = this;
+        this.params = params;
+        this.paramsList = new Array();
+        var search = location.search;
+        if (search && search !== '' && /\?(.+?=.+)/.test(search)) {
+            search.split('?')[1].split('&').forEach(function (both) {
+                var e = both.split('=');
+                _this.paramsList.push({ key: e[0], value: decodeURIComponent(e[1]) });
+            });
+        }
+    }
+    URLSearchParam.prototype.get = function (key) {
+        var filter = this.paramsList.filter((function (value) { return value.key == key; }));
+        if (filter.length > 0)
+            return filter[0];
+        return undefined;
+    };
+    URLSearchParam.prototype.set = function (key, value) {
+        var find = this.get(key);
+        if (find != undefined)
+            find.value = value;
+    };
+    URLSearchParam.prototype.has = function (key) {
+        return this.get(key) != undefined;
+    };
+    URLSearchParam.prototype.append = function (key, value) {
+        this.paramsList.push({ key: key, value: value });
+    };
+    URLSearchParam.prototype.toString = function () {
+        var _this = this;
+        var result = "";
+        this.paramsList.forEach((function (param, index) {
+            result += param.key + "=" + param.value;
+            if (index != _this.paramsList.length) {
+                result += "&";
+            }
+        }));
+        return result;
+    };
+    return URLSearchParam;
+}());
