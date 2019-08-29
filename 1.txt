@@ -1,43 +1,54 @@
-var URLSearchParams = (function () {
-    function URLSearchParam(params) {
-        var _this = this;
-        this.params = params;
-        this.paramsList = new Array();
-        var search = location.search;
-        if (search && search !== '' && /\?(.+?=.+)/.test(search)) {
-            search.split('?')[1].split('&').forEach(function (both) {
-                var e = both.split('=');
-                _this.paramsList.push({ key: e[0], value: decodeURIComponent(e[1]) });
-            });
+
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        while (in.hasNext()) {
+            in.nextLine();
+            String[] firstLine = in.nextLine().split(" ");
+            String[] secondLine = in.nextLine().split(" ");
+            ArrayList<Integer> firstLineInt = new ArrayList<>();
+            ArrayList<IndexAndValue> secondLineList = new ArrayList<>();
+
+            for (int i = 0; i < secondLine.length; i++) {
+                secondLineList.add(new IndexAndValue(i, Integer.parseInt(secondLine[i])));
+            }
+
+            for (String s : firstLine) {
+                int index = 0;
+                for (int i = 0; i < secondLineList.size(); i++) {
+                    if (secondLineList.get(i).index == (int) s.charAt(0) - 'A') {
+                        index = i;
+                    }
+                }
+
+                secondLineList.remove(index);
+            }
+
+            IndexAndValue max = null;
+            for (IndexAndValue iv : secondLineList) {
+                if (max == null) max = iv;
+                else if (max.value < iv.value) max = iv;
+            }
+
+
+            System.out.println((char) (max.index + 'A'));
+        }
+
+    }
+
+    static class IndexAndValue {
+        int index;
+        int value;
+
+        public IndexAndValue(int index, int value) {
+            this.index = index;
+            this.value = value;
         }
     }
-    URLSearchParam.prototype.get = function (key) {
-        var filter = this.paramsList.filter((function (value) { return value.key == key; }));
-        if (filter.length > 0)
-            return filter[0];
-        return undefined;
-    };
-    URLSearchParam.prototype.set = function (key, value) {
-        var find = this.get(key);
-        if (find != undefined)
-            find.value = value;
-    };
-    URLSearchParam.prototype.has = function (key) {
-        return this.get(key) != undefined;
-    };
-    URLSearchParam.prototype.append = function (key, value) {
-        this.paramsList.push({ key: key, value: value });
-    };
-    URLSearchParam.prototype.toString = function () {
-        var _this = this;
-        var result = "";
-        this.paramsList.forEach((function (param, index) {
-            result += param.key + "=" + param.value;
-            if (index != _this.paramsList.length) {
-                result += "&";
-            }
-        }));
-        return result;
-    };
-    return URLSearchParam;
-}());
+
+}
