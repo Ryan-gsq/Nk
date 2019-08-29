@@ -1,5 +1,3 @@
-
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,13 +6,12 @@ public class Main {
         Scanner in = new Scanner(System.in);
 
         while (in.hasNext()) {
-            in.nextLine();
+            int n =  Integer.parseInt(in.nextLine());
             String[] firstLine = in.nextLine().split(" ");
             String[] secondLine = in.nextLine().split(" ");
-            ArrayList<Integer> firstLineInt = new ArrayList<>();
             ArrayList<IndexAndValue> secondLineList = new ArrayList<>();
 
-            for (int i = 0; i < secondLine.length; i++) {
+            for (int i = n; i < secondLine.length; i++) {
                 secondLineList.add(new IndexAndValue(i, Integer.parseInt(secondLine[i])));
             }
 
